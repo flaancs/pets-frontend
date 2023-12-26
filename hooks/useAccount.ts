@@ -22,7 +22,9 @@ export const useAccount = ({ setShowModal }: useAccountProps) => {
     phoneNumber: string;
     password: string;
   }) => {
-    return axiosClient.post("/register", data).then(() => {
+    return axiosClient.post("/register", data).then((response) => {
+      const { username } = response.data;
+      setUser(username);
       setShowModal(false);
     });
   };
