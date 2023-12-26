@@ -11,11 +11,17 @@ export const useModal = () => {
     setShowModal(true);
   };
 
+  const handleOpenCreatePetModal = () => {
+    setModalMode("pet");
+    setShowModal(true);
+  };
+
   return {
     showModal,
     setShowModal,
     modalMode,
     setModalMode,
     handleOpenLoginModal,
+    handleOpenCreatePetModal,
   };
 };
