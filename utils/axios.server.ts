@@ -7,18 +7,13 @@ const axiosClient = axios.create({
   baseURL,
 });
 
-const URLS_WITHOUT_AUTH = ["/auth/login", "/auth/register", "/pets"];
-
 axiosClient.interceptors.request.use(
   (config) => {
     const cookieStore = cookies();
-    if (!URLS_WITHOUT_AUTH.includes(config.url || "")) {
-      const token = cookieStore.get("authToken")?.value;
+    const token = cookieStore.get("authToken")?.value;
 
-      if (!token) {
-        throw new Error("Unauthorized");
-      }
-      config.headers.Authorization = `Token ${token}`;
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;
