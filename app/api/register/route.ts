@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import axiosServer from "@/utils/axios.server";
+import { jwtDecode } from "jwt-decode";
 
 export async function POST(request: Request) {
   try {
@@ -36,7 +37,8 @@ export async function POST(request: Request) {
       path: "/",
     });
 
-    return Response.json("Register success");
+    const decoded = jwtDecode(access_token);
+    return Response.json(decoded);
   } catch (error) {
     console.error(error);
 
