@@ -5,7 +5,6 @@ import { Badge, Empty, Pagination, Spinner, Table } from "keep-react";
 import { usePetsTable } from "@/hooks/usePetsTable";
 import { useModal } from "@/hooks/useModal";
 import PetsTableHeader from "./PetsTableHeader";
-import { SetStateAction } from "react";
 
 export interface PetsTableProps {
   pets: Pet[];
@@ -27,6 +26,7 @@ export default function PetsTable({ pets, pages, count }: PetsTableProps) {
     handleChangePerPage,
     handleChangeType,
     setPage,
+    handleCreatePet,
   } = usePetsTable({
     pets,
     pages,
@@ -38,6 +38,7 @@ export default function PetsTable({ pets, pages, count }: PetsTableProps) {
     modalMode,
     setModalMode,
     handleOpenLoginModal,
+    handleOpenCreatePetModal,
   } = useModal();
 
   return (
@@ -53,6 +54,8 @@ export default function PetsTable({ pets, pages, count }: PetsTableProps) {
         handleDebounceSearch={handleDebounceSearch}
         handleChangeType={handleChangeType}
         handleOpenLoginModal={handleOpenLoginModal}
+        handleOpenCreatePetModal={handleOpenCreatePetModal}
+        handleCreatePet={handleCreatePet}
       />
       {loading ? (
         <div className="w-full flex justify-center p-12">
