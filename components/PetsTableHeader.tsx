@@ -1,4 +1,5 @@
 "use client";
+import { Dispatch, SetStateAction } from "react";
 import { CubeIcon } from "@heroicons/react/16/solid";
 import {
   ArrowRightIcon,
@@ -10,7 +11,7 @@ import { PET_TYPES } from "@/utils/constants";
 import { useAccount } from "@/hooks/useAccount";
 import LoginModal from "./LoginModal";
 import RegisterModal from "./RegisterModal";
-import { Dispatch, SetStateAction } from "react";
+import CreatePetModal from "./CreatePetModal";
 
 export interface PetTableHeaderProps {
   user: string | null;
@@ -23,6 +24,14 @@ export interface PetTableHeaderProps {
   handleDebounceSearch: (value: string) => void;
   handleChangeType: (value: number) => void;
   handleOpenLoginModal: () => void;
+  handleOpenCreatePetModal: () => void;
+  handleCreatePet: (data: {
+    name: string;
+    type: string;
+    breed: string;
+    age: number;
+    isSterilized: boolean;
+  }) => Promise<void>;
 }
 
 export default function PetsTableHeader({
@@ -36,6 +45,8 @@ export default function PetsTableHeader({
   handleDebounceSearch,
   handleChangeType,
   handleOpenLoginModal,
+  handleOpenCreatePetModal,
+  handleCreatePet,
 }: PetTableHeaderProps) {
   const { handleLogin, handleRegister, handleLogout } = useAccount({
     setShowModal,
@@ -76,6 +87,12 @@ export default function PetsTableHeader({
             onRegister={handleRegister}
           />
         )}
+        {modalMode === "pet" && (
+          <CreatePetModal
+            setShowModal={setShowModal}
+            onCreate={handleCreatePet}
+          />
+        )}
       </Modal>
       <div className="w-full">
         <div className="my-5 flex items-center justify-between">
@@ -98,7 +115,11 @@ export default function PetsTableHeader({
               handleOnChange={(e) => handleDebounceSearch(e.target.value)}
             />
             {user ? (
-              <Button type="outlineGray" size="sm">
+              <Button
+                type="outlineGray"
+                size="sm"
+                onClick={handleOpenCreatePetModal}
+              >
                 <span className="pr-2">
                   <CubeIcon width={24} />
                 </span>
